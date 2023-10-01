@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/static/videos/
+/src/main/resources/static/audios/musica.mp3

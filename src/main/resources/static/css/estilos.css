@@ -6,11 +6,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Created on : 24 sept 2023, 21:08:45
     Author     : Me
 */
-#encabezado {
+/*#encabezado {
     color:aquamarine;
     font-weight: bold;
 }
-/*Cosas especificas*/
+Cosas especificas
 
 .parrafosCentrados{
     text-align: center;
@@ -22,14 +22,47 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .textocafe {
     color: brown;
 }
-/*Para modificar varios elementos*/
+Para modificar varios elementos
 
 * {
     color:cadetblue ;
 }
-/*Selector universal, se lo asigna a quien lo tenga algo, en este caso un color*/
+Selector universal, se lo asigna a quien lo tenga algo, en este caso un color
 h1 {
     color:crimson ;
-}
+}*/
+
+
 
 /*Selector de elementos*/
+
+#barralateral {
+    position: absolute;
+    height: 81%;
+    top:12%;
+    left:0;
+    width:20%;
+    background-color: burlywood;
+    padding: 10px;
+}
+
+#contenido{
+    position: absolute;
+    height: 81%;
+    top:12%;
+    left:20%;
+    width:80%;
+    background-color: gainsboro;
+    padding: 10px;
+}
+
+#piedepagina {
+    position: absolute;
+    height: 7%;
+    bottom: 0%;
+    left: 0%;
+    width:100%;
+    background-color: aqua;
+    padding: 15px;
+    text-align: center;
+}
