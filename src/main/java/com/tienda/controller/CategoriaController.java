@@ -35,6 +35,7 @@ public class CategoriaController {
     public String inicio(Model model) {
         
         List<Categoria> listadoCategorias = categoriaService.getCategorias(true);
+        //List<Categoria> listadoCategorias = categoriaService.getCategoriaDescripcion("mon");
         model.addAttribute("categorias", listadoCategorias);
         model.addAttribute("totalCategorias",listadoCategorias.size());
         return "/categoria/listado";
