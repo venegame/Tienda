@@ -4,52 +4,74 @@
  */
 package com.tienda.service.impl;
 
+import com.tienda.dao.RolDao;
 import com.tienda.dao.UsuarioDao;
 import com.tienda.domain.Rol;
 import com.tienda.domain.Usuario;
 import com.tienda.service.UsuarioService;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author Me
- */
-@Service("UserDetailsService")
-public class UsuarioServiceImpl implements UsuarioService, UserDetailsService{
+@Service
+public class UsuarioServiceImpl implements UsuarioService {
+    @Autowired
+    private UsuarioDao usuarioDao;
+    @Autowired
+    private RolDao rolDao;
 
-    @Autowired
-    private UsuarioDao usuariodao;
-    
-    @Autowired
-    private HttpSession session;
-            
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuariodao.findByUsername(username);
-        if (usuario == null){
-            throw new UsernameNotFoundException(username);
-        }
-        session.removeAttribute("usuarioImagen");
-        session.setAttribute("usuarioImagen", usuario.getRutaImagen());
-        var roles = new ArrayList<GrantedAuthority>();
-        for (Rol item : usuario.getRoles()){
-            roles.add(new SimpleGrantedAuthority(item.getNombre()));
-        }
-        return new User(usuario.getUsername(), usuario.getPassword(), roles);
+    public List<Usuario> getUsuarios() {
+        return usuarioDao.findAll();
     }
 
     @Override
-    public Usuario getUsuarioPorUsername(String username) {
-        return usuariodao.findByUsername(username);
+    @Transactional(readOnly = true)
+    public Usuario getUsuario(Usuario usuario) {
+        return usuarioDao.findById(usuario.getIdUsuario()).orElse(null);
     }
-    
-    
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario getUsuarioPorUsername(String username) {
+        return usuarioDao.findByUsername(username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario getUsuarioPorUsernameYPassword(String username, String password) {
+        return usuarioDao.findByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Usuario getUsuarioPorUsernameOCorreo(String username, String correo) {
+        return usuarioDao.findByUsernameOrCorreo(username, correo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existeUsuarioPorUsernameOCorreo(String username, String correo) {
+        return usuarioDao.existsByUsernameOrCorreo(username, correo);
+    }
+
+    @Override
+    @Transactional
+    public void save(Usuario usuario, boolean crearRolUser) {
+        usuario=usuarioDao.save(usuario);
+        if (crearRolUser) {  //Si se está creando el usuario, se crea el rol por defecto "USER"
+            Rol rol = new Rol();
+            rol.setNombre("ROLE_USER");
+            rol.setIdUsuario(usuario.getIdUsuario());
+            rolDao.save(rol);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void delete(Usuario usuario) {
+        usuarioDao.delete(usuario);
+    }
 }
