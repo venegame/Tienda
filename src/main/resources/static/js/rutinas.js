@@ -3,6 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/javascript.js to edit this template
  */
 
+$(document).ready(function (){
+    if($("#resultsBlock").lenght > 0){
+        cargarLista();
+    }
+});
+function cargarLista(){
+    var ulr = "/refrescarBoton";
+    $("#resultsBlock").load(url);
+}
+
 /* La siguiente función se utiliza para visualizar la imagen seleccionada en la
  * página html donde se desea "cargar" utilizando un llamado "ajax"*/
 function readURL(input) {
